@@ -1,0 +1,32 @@
+# libraries
+if (!require("pacman")) install.packages("pacman")
+pacman::p_load(
+  tidyverse,            # data manipulation 
+  leaflet,              # mapping 
+  gplots,               # hex colors (see col2hex() function)
+  tidygeocoder          # geocoding 
+) 
+
+# STARKBUCKS DATASET
+starbucks = read_csv("https://www.macalester.edu/~ajohns24/Data/Starbucks.csv") %>%
+  
+  # rename variables with space to make 
+  # plotting easier 
+  rename(storeNumber = "Store Number", 
+         storeName = "Store Name", 
+         ownType = "Ownership Type", 
+         strtAdd = "Street Address", 
+         state = "State/Province", 
+         phone = "Phone Number")
+         
+
+# add your name in the FOLLOWING format:
+################################## #
+# MASON WIRTZ ----
+################################## #
+# then enter the code for your map here!
+starbucks %>% 
+  filter(Country %in% "AT") %>% 
+  leaflet() %>% 
+  addProviderTiles(providers$CartoDB.DarkMatter) %>% 
+  addCircles(label = ~storeNumber)
